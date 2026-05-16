@@ -1,26 +1,22 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 export default function Home() {
   const [wallet, setWallet] = useState("");
-  const [result, setResult] = useState<any>(null);
   const [loading, setLoading] = useState(false);
+  const [result, setResult] = useState<any>(null);
 
-  const handleAnalyze = async () => {
+  const cardRef = useRef<HTMLDivElement>(null);
+
+  const analyzeWallet = async () => {
     if (!wallet) return;
 
     setLoading(true);
 
     try {
       const response = await fetch(
-        `https://deep-index.moralis.io/api/v2.2/${wallet}/balance?chain=eth`,
-        {
-          headers: {
-            "X-API-Key":
-              process.env.NEXT_PUBLIC_MORALIS_API_KEY || "",
-          },
-        }
+        `/api/analyze?address=${wallet}`
       );
 
       const data = await response.json();
@@ -28,176 +24,264 @@ export default function Home() {
       setResult(data);
     } catch (error) {
       console.error(error);
-
-      setResult({
-        error: "Failed to fetch wallet data",
-      });
     }
 
     setLoading(false);
   };
 
+  const downloadCard = async () => {
+    if (!cardRef.current) return;
+
+    const domtoimage = await import("dom-to-image-more");
+
+    try {
+      const dataUrl = await domtoimage.default.toPng(
+        cardRef.current,
+        {
+          quality: 1,
+          bgcolor: "#000000",
+        }
+      );
+
+      const link = document.createElement("a");
+
+      link.download = "wallet-resume.png";
+      link.href = dataUrl;
+      link.click();
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const chains = [
+    "Ethereum",
+    "Base",
+    "Arbitrum",
+    "Polygon",
+    "Optimism",
+    "BNB Chain",
+    "Avalanche",
+    "Fantom",
+    "Linea",
+  ];
+
+  const traits = [
+    "Multi-Chain User",
+    "Ecosystem Explorer",
+    "NFT Collector",
+    "Active Trader",
+    "Veteran User",
+  ];
+
   return (
-    <main className="min-h-screen bg-black text-white flex items-center justify-center px-6 py-20">
-      <div className="max-w-4xl w-full text-center">
+    <main className="min-h-screen bg-black text-white px-6 py-12 overflow-hidden">
+      <div className="fixed inset-0 pointer-events-none">
+        <div className="absolute top-0 left-0 w-[500px] h-[500px] rounded-full bg-purple-500/10 blur-3xl"></div>
 
-        <h1 className="text-6xl font-bold mb-6">
-          Wallet Resume
-        </h1>
+        <div className="absolute bottom-0 right-0 w-[500px] h-[500px] rounded-full bg-cyan-500/10 blur-3xl"></div>
+      </div>
 
-        <p className="text-gray-400 mb-10 text-lg">
-          Discover your Web3 identity from wallet activity.
-        </p>
+      <div className="max-w-6xl mx-auto relative z-10">
+        <div className="text-center mb-12">
+          <h1 className="text-6xl font-bold mb-4">
+            Wallet Resume
+          </h1>
 
-        <div className="flex gap-3">
+          <p className="text-zinc-400 text-xl">
+            Discover your Web3 identity
+          </p>
+        </div>
+
+        <div className="flex gap-4 mb-12">
           <input
-            type="text"
-            placeholder="Paste wallet address..."
             value={wallet}
             onChange={(e) => setWallet(e.target.value)}
-            className="flex-1 px-5 py-4 rounded-xl bg-zinc-900 border border-zinc-700 outline-none text-lg"
+            placeholder="Paste wallet address..."
+            className="flex-1 bg-zinc-900 border border-zinc-800 rounded-2xl px-6 py-5 text-lg outline-none"
           />
 
           <button
-            onClick={handleAnalyze}
-            className="bg-white text-black px-6 py-4 rounded-xl font-semibold hover:bg-gray-200 transition"
+            onClick={analyzeWallet}
+            className="bg-white text-black px-10 rounded-2xl font-semibold hover:scale-105 transition"
           >
-            Analyze
+            {loading ? "Loading..." : "Analyze"}
           </button>
         </div>
 
-        {loading && (
-          <p className="mt-6 text-gray-400">
-            Analyzing wallet...
-          </p>
-        )}
-
         {result && (
-          <div className="mt-10 bg-zinc-900 border border-zinc-700 rounded-3xl p-8 text-left space-y-8">
-
-            {result.error ? (
-              <p>{result.error}</p>
-            ) : (
-              <>
+          <>
+            <div
+              ref={cardRef}
+              className="rounded-[40px] border border-zinc-800 bg-zinc-950/95 p-10 space-y-10 backdrop-blur"
+            >
+              <div className="flex justify-between items-start">
                 <div>
-                  <h2 className="text-4xl font-bold mb-2">
-                    Web3 Identity
+                  <p className="uppercase text-zinc-500 tracking-widest mb-4">
+                    Wallet Identity
+                  </p>
+
+                  <h2 className="text-7xl font-bold mb-4">
+                    {result.score > 80
+                      ? "Onchain Veteran"
+                      : result.score > 50
+                      ? "Intermediate User"
+                      : "New User"}
                   </h2>
 
-                  <p className="text-gray-400">
-                    Generated from onchain wallet activity
+                  <p className="text-3xl text-zinc-400">
+                    Active across {chains.length} ecosystems
                   </p>
                 </div>
 
-                <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-
-                  <div className="bg-black/40 p-5 rounded-2xl border border-zinc-800">
-                    <p className="text-gray-400 text-sm">
-                      Wallet Type
-                    </p>
-
-                    <h3 className="text-2xl font-semibold mt-2">
-                      {Number(result.balance) / 1e18 > 5
-                        ? "Onchain Veteran"
-                        : Number(result.balance) / 1e18 > 0.1
-                        ? "DeFi Explorer"
-                        : "New User"}
-                    </h3>
-                  </div>
-
-                  <div className="bg-black/40 p-5 rounded-2xl border border-zinc-800">
-                    <p className="text-gray-400 text-sm">
-                      Experience Level
-                    </p>
-
-                    <h3 className="text-2xl font-semibold mt-2">
-                      {Number(result.balance) / 1e18 > 10
-                        ? "Advanced"
-                        : Number(result.balance) / 1e18 > 1
-                        ? "Intermediate"
-                        : "Beginner"}
-                    </h3>
-                  </div>
-
-                  <div className="bg-black/40 p-5 rounded-2xl border border-zinc-800">
-                    <p className="text-gray-400 text-sm">
-                      ETH Balance
-                    </p>
-
-                    <h3 className="text-2xl font-semibold mt-2">
-                      {(Number(result.balance) / 1e18).toFixed(4)} ETH
-                    </h3>
-                  </div>
-
-                  <div className="bg-black/40 p-5 rounded-2xl border border-zinc-800">
-                    <p className="text-gray-400 text-sm">
-                      Primary Chain
-                    </p>
-
-                    <h3 className="text-2xl font-semibold mt-2">
-                      Ethereum
-                    </h3>
-                  </div>
-
-                  <div className="bg-black/40 p-5 rounded-2xl border border-zinc-800">
-                    <p className="text-gray-400 text-sm">
-                      Wallet Score
-                    </p>
-
-                    <h3 className="text-2xl font-semibold mt-2">
-                      {Math.min(
-                        100,
-                        Math.floor(Number(result.balance) / 1e18 * 10 + 20)
-                      )}
-                      /100
-                    </h3>
-                  </div>
-
-                </div>
-
-                <div className="bg-black/40 p-6 rounded-2xl border border-zinc-800">
-                  <p className="text-gray-400 text-sm mb-4">
-                    Wallet Traits
+                <div className="w-64 h-64 rounded-[32px] bg-black border border-zinc-800 flex flex-col justify-center items-center">
+                  <p className="text-zinc-500 mb-4 text-2xl">
+                    Wallet Score
                   </p>
 
-                  <div className="flex flex-wrap gap-3">
+                  <h2 className="text-8xl font-bold">
+                    {result.score}
+                  </h2>
 
-                    <span className="px-4 py-2 rounded-full bg-zinc-800 text-sm">
-                      NFT Curious
-                    </span>
-
-                    <span className="px-4 py-2 rounded-full bg-zinc-800 text-sm">
-                      Long-Term Holder
-                    </span>
-
-                    <span className="px-4 py-2 rounded-full bg-zinc-800 text-sm">
-                      Ethereum Native
-                    </span>
-
-                    <span className="px-4 py-2 rounded-full bg-zinc-800 text-sm">
-                      Early Adopter
-                    </span>
-
-                  </div>
+                  <p className="text-zinc-500 mt-2">
+                    out of 100
+                  </p>
                 </div>
+              </div>
 
-                <div className="bg-gradient-to-r from-zinc-900 to-zinc-800 p-6 rounded-2xl border border-zinc-700">
-                  <p className="text-gray-400 text-sm mb-3">
-                    AI Summary
+              <div className="grid grid-cols-4 gap-6">
+                <div className="bg-black border border-zinc-800 rounded-[32px] p-8">
+                  <p className="text-zinc-500 mb-6 text-2xl">
+                    Portfolio Value
                   </p>
 
-                  <p className="leading-8 text-gray-200 text-lg">
-                    This wallet shows signs of a consistent Ethereum ecosystem
-                    user with moderate DeFi exposure and long-term holding
-                    behavior.
+                  <h2 className="text-5xl font-bold mb-4">
+                    $
+                    {Number(
+                      result.portfolioValue || 0
+                    ).toLocaleString()}
+                  </h2>
+
+                  <p className="text-zinc-500 text-xl">
+                    Multi-chain assets
                   </p>
                 </div>
 
-              </>
-            )}
-          </div>
+                <div className="bg-black border border-zinc-800 rounded-[32px] p-8">
+                  <p className="text-zinc-500 mb-6 text-2xl">
+                    Active Chains
+                  </p>
+
+                  <h2 className="text-5xl font-bold mb-4">
+                    {chains.length}
+                  </h2>
+
+                  <p className="text-zinc-500 text-xl">
+                    Ecosystems used
+                  </p>
+                </div>
+
+                <div className="bg-black border border-zinc-800 rounded-[32px] p-8">
+                  <p className="text-zinc-500 mb-6 text-2xl">
+                    NFT Holdings
+                  </p>
+
+                  <h2 className="text-5xl font-bold mb-4">
+                    {result.nfts}
+                  </h2>
+
+                  <p className="text-zinc-500 text-xl">
+                    NFT assets
+                  </p>
+                </div>
+
+                <div className="bg-black border border-zinc-800 rounded-[32px] p-8">
+                  <p className="text-zinc-500 mb-6 text-2xl">
+                    Transactions
+                  </p>
+
+                  <h2 className="text-5xl font-bold mb-4">
+                    {result.transactions}
+                  </h2>
+
+                  <p className="text-zinc-500 text-xl">
+                    Recent activity
+                  </p>
+                </div>
+              </div>
+
+              <div className="bg-black border border-zinc-800 rounded-[32px] p-8">
+                <p className="uppercase text-zinc-500 tracking-widest mb-8">
+                  Active Ecosystems
+                </p>
+
+                <div className="flex flex-wrap gap-4">
+                  {chains.map((chain) => (
+                    <div
+                      key={chain}
+                      className="px-6 py-4 rounded-full bg-zinc-800"
+                    >
+                      {chain}
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div className="bg-black border border-zinc-800 rounded-[32px] p-8">
+                <p className="uppercase text-zinc-500 tracking-widest mb-8">
+                  Wallet Traits
+                </p>
+
+                <div className="flex flex-wrap gap-4">
+                  {traits.map((trait) => (
+                    <div
+                      key={trait}
+                      className="px-6 py-4 rounded-full bg-zinc-800"
+                    >
+                      {trait}
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div className="bg-black border border-zinc-800 rounded-[32px] p-8">
+                <p className="uppercase text-zinc-500 tracking-widest mb-8">
+                  AI Summary
+                </p>
+
+                <p className="text-3xl leading-relaxed text-zinc-300">
+                  This wallet shows activity across{" "}
+                  {chains.length} ecosystems with{" "}
+                  {result.transactions} recent
+                  transactions and {result.nfts} NFT
+                  assets.
+                </p>
+              </div>
+
+              <div className="border-t border-zinc-800 pt-8 flex justify-between">
+                <a
+                  href="https://x.com/S4Sanjay_das"
+                  target="_blank"
+                  className="text-cyan-400 hover:text-cyan-300"
+                >
+                  Made by Sanjay
+                </a>
+
+                <p className="text-zinc-500">
+                  @S4Sanjay_das
+                </p>
+              </div>
+            </div>
+
+            <div className="flex justify-center mt-10">
+              <button
+                onClick={downloadCard}
+                className="px-8 py-4 rounded-2xl bg-gradient-to-r from-cyan-500 to-purple-500 font-semibold hover:scale-105 transition"
+              >
+                Download Card
+              </button>
+            </div>
+          </>
         )}
-
       </div>
     </main>
   );
