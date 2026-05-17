@@ -1,36 +1,129 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Wallet Resume
 
-## Getting Started
+Your wallet has lore.
 
-First, run the development server:
+Wallet Resume transforms any EVM wallet into a shareable onchain identity card using wallet activity, ecosystem behavior, and crypto-native personality analysis.
+
+Built for crypto users who want something more fun, social, and relatable than raw wallet analytics.
+
+---
+
+## Features
+
+* Wallet personality analysis
+* Ecosystem identity detection
+* Degen score system
+* Crypto-native roast engine
+* Animated wallet scan experience
+* Downloadable share cards
+* Share directly to X
+* Mobile optimized UI
+* AI-style behavioral insights
+* Premium cyberpunk-inspired interface
+
+---
+
+## Supported Wallets
+
+Currently supports:
+
+* EVM wallets
+* Ethereum
+* Base
+* Arbitrum
+* Other EVM-compatible addresses
+
+---
+
+## Tech Stack
+
+* Next.js
+* TypeScript
+* Tailwind CSS
+* Vercel
+* GoldRush API
+* html2canvas
+
+---
+
+## Local Setup
+
+Clone the repository:
+
+```bash
+git clone https://github.com/YOUR_USERNAME/wallet-resume.git
+```
+
+Install dependencies:
+
+```bash
+npm install
+```
+
+Create `.env.local`
+
+```env
+GOLDRUSH_API_KEY=your_api_key
+```
+
+Run locally:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Deployment
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+The project is optimized for deployment on Vercel.
 
-## Learn More
+1. Push project to GitHub
+2. Import repository into Vercel
+3. Add environment variables
+4. Deploy
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Product Vision
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Wallet Resume is designed to make wallet identity social, emotional, and shareable.
 
-## Deploy on Vercel
+Instead of only showing balances and transactions, the product focuses on:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+* personality
+* ecosystem behavior
+* culture
+* humor
+* reputation
+* social sharing
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+The goal is to turn wallets into digital personalities rather than static addresses.
+
+---
+
+## Roadmap
+
+* Real ecosystem detection
+* Dynamic OG image previews
+* Wallet comparison mode
+* Leaderboards
+* Personality evolution
+* More chain support
+* Better behavior modeling
+* Social profile system
+
+---
+
+## Live Project
+
+https://wallet-resume.vercel.app
+
+---
+
+## Built By
+
+Sanjay Das
+
+X:
+https://x.com/S4Sanjay_das
