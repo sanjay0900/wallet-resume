@@ -440,7 +440,7 @@ const url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(
                   setError("");
               }}
               placeholder="Paste EVM wallet address..."
-              className={`flex-1 h-14 md:h-20 rounded-2xl border px-5 md:px-8 text-sm md:text-xl outline-none bg-zinc-950/80 transition ${
+              className={`flex-1 h-[58px] md:h-20 rounded-2xl border px-6 md:px-8 text-base md:text-xl outline-none bg-zinc-950/80 transition ${
                 error
                   ? "border-red-500"
                   : "border-zinc-800"
