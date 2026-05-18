@@ -379,11 +379,16 @@ const url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(
 
           </h1>
 
-          <p className="text-zinc-400">
+          <a
+  href="https://x.com/S4Sanjay_das"
+  target="_blank"
+  rel="noopener noreferrer"
+  className="text-zinc-400 hover:text-white transition-colors"
+>
 
-            @S4Sanjay_das
+  @S4Sanjay_das
 
-          </p>
+</a>
 
         </div>
 
@@ -640,11 +645,16 @@ const url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(
 
                   </p>
 
-                  <p className="text-purple-400">
+                  <a
+  href="https://x.com/S4Sanjay_das"
+  target="_blank"
+  rel="noopener noreferrer"
+  className="text-zinc-500 text-2xl"
+>
 
-                    Built by @S4Sanjay_das
+  Built by @S4Sanjay_das
 
-                  </p>
+</a>
 
                 </div>
 
@@ -845,7 +855,7 @@ const url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(
 
                   <p className="text-zinc-300 text-3xl font-semibold mb-3">
 
-                    walletresume.xyz
+                  wallet-resume.vercel.app
 
                   </p>
 
