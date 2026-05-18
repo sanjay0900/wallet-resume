@@ -338,16 +338,17 @@ export default function Home() {
 
     const text = `🧠 Wallet Lore
 
-${result.archetype}
-${result.ecosystem}
+    ${result.archetype} • ${result.ecosystem}
+    
+    "${result.roast}"
+    
+    Analyze yours 👇`;
 
-"${result.roast}"
-
-Analyze yours 👇`;
-
-    const url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(
-      text
-    )}`;
+const url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(
+  text
+)}&url=${encodeURIComponent(
+  "https://wallet-resume.vercel.app"
+)}`;
 
     window.open(
       url,
@@ -651,7 +652,7 @@ Analyze yours 👇`;
 
                   <p className="text-zinc-400 font-semibold">
 
-                    walletresume.xyz
+                  wallet-resume.vercel.app
 
                   </p>
 
