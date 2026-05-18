@@ -371,7 +371,7 @@ const url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(
       {/* HERO */}
       <section className="relative z-10 max-w-7xl mx-auto px-4 md:px-6 py-8 md:py-16">
 
-        <div className="flex items-center justify-between mb-14">
+      <div className="flex items-center justify-between mb-10 md:mb-14">
 
           <h1 className="text-2xl md:text-4xl font-black">
 
@@ -420,7 +420,7 @@ const url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(
 
           </h1>
 
-          <p className="text-lg md:text-2xl text-zinc-400 mb-10 max-w-3xl mx-auto">
+          <p className="text-base md:text-2xl text-zinc-400 mb-10 max-w-2xl mx-auto px-2">
 
             Discover your ecosystem addiction,
             degen psychology and onchain reputation.
@@ -440,7 +440,7 @@ const url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(
                   setError("");
               }}
               placeholder="Paste EVM wallet address..."
-              className={`flex-1 h-[58px] md:h-20 rounded-2xl border px-6 md:px-8 text-base md:text-xl outline-none bg-zinc-950/80 transition ${
+              className={`flex-1 h-16 md:h-20 rounded-2xl border px-6 py-4 md:px-8 text-base md:text-xl outline-none bg-zinc-950/80 transition ${
                 error
                   ? "border-red-500"
                   : "border-zinc-800"
@@ -452,7 +452,7 @@ const url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(
                 analyzeWallet
               }
               disabled={loading}
-              className="h-14 md:h-20 px-8 rounded-2xl font-bold text-base md:text-xl bg-gradient-to-r from-purple-500 via-pink-500 to-cyan-500 hover:scale-[1.02] transition-all"
+              className="h-16 md:h-20 px-8 rounded-2xl font-bold text-base md:text-xl bg-gradient-to-r from-purple-500 via-pink-500 to-cyan-500 hover:scale-[1.02] transition-all"
             >
 
               {loading
@@ -524,7 +524,7 @@ const url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(
 
               </p>
 
-              <h1 className="text-5xl md:text-8xl font-black leading-[0.92] mb-6">
+              <h1 className="text-4xl md:text-8xl font-black leading-[0.92] mb-6">
 
                 {result.archetype}
 
